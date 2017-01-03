@@ -1,12 +1,12 @@
 package com.blogspot.nataliprograms.androidsamples.UI.activities;
 
+import android.content.Intent;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,7 +22,7 @@ import java.util.List;
  * Created by NataliLA on 2-1-17.
  */
 
-public class CategoriesActivity extends AppCompatActivity {
+public class CategoriesActivity extends RecyclerBaseActivity {
 
     private class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.CategoriesViewHolder> {
 
@@ -53,7 +53,7 @@ public class CategoriesActivity extends AppCompatActivity {
             return categoriesList.size();
         }
 
-        class CategoriesViewHolder extends RecyclerView.ViewHolder {
+        class CategoriesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
             private ImageView categoryIcon;
             private TextView categoryTitle;
@@ -63,11 +63,18 @@ public class CategoriesActivity extends AppCompatActivity {
 
                 categoryIcon = (ImageView) itemView.findViewById(R.id.item_category_icon);
                 categoryTitle = (TextView) itemView.findViewById(R.id.item_category_title);
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View view) {
+                Intent titleIntent = new Intent(getBaseContext(),TitlesActivity.class);
+                titleIntent.putExtra(TitlesActivity.EXTRA_CATEGORY_ID,categoriesList.get(this.getLayoutPosition()).getItemID());
+                startActivity(titleIntent);
             }
         }
     }
 
-    private RecyclerView mCategoriesRecyclerView;
     private CategoriesRecyclerViewAdapter mCategoriesRecyclerViewAdapter;
 
     private static List<Category> mainCategories = new ArrayList<Category>() {{
@@ -92,13 +99,14 @@ public class CategoriesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_categories);
 
-        mCategoriesRecyclerView = (RecyclerView) findViewById(R.id.categories_recyclerview_main);
         mCategoriesRecyclerViewAdapter = new CategoriesRecyclerViewAdapter(mainCategories);
-        mCategoriesRecyclerView.setAdapter(mCategoriesRecyclerViewAdapter);
-        mCategoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected RecyclerView.Adapter getRecyclerViewAdapter() {
+        return mCategoriesRecyclerViewAdapter;
     }
 
 }

@@ -17,6 +17,8 @@
         </activity>
         <activity android:name=".UI.activities.CategoriesActivity">
         </activity>
+        <activity android:name=".UI.activities.TitlesActivity">
+        </activity>
     </application>
 
 </manifest>
