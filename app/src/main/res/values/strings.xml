@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AndroidSamples</string>
+
+    <!-- Home Activity -->
+    <string name="home_description">Here you can find set of the most popular android libraries with detailed examples, samples and demos.</string>
+    <string name="home_button_go">GO!</string>
+
+    <!-- Categories Activity -->
+</resources>
